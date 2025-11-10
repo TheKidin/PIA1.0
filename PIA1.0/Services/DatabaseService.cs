@@ -69,10 +69,11 @@ namespace PIA1._0
                     MIN(i.StockMinimo) AS StockMinimo,          -- El stock mínimo de esa agrupación
                     MAX(i.StockMaximo) AS StockMaximo,          -- El stock máximo de esa agrupación
                     MIN(i.PuntoReorden) AS PuntoReorden         -- El punto de reorden de esa agrupación
-                    FROM Productos p
-                    INNER JOIN Inventario i ON p.Id = i.ProductoId
-                    GROUP BY p.Id, p.Nombre, p.Plataforma, p.PrecioVenta  -- Agrupar por Producto
-                    ORDER BY p.Nombre";
+                FROM Productos p
+                INNER JOIN Inventario i ON p.Id = i.ProductoId
+                WHERE p.Nombre LIKE @Criterio OR p.Plataforma LIKE @Criterio
+                GROUP BY p.Id, p.Nombre, p.Plataforma, p.PrecioVenta  -- Agrupar por Producto
+                ORDER BY p.Nombre";
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -87,7 +88,6 @@ namespace PIA1._0
                         {
                             items.Add(new InventarioProducto
                             {
-                                
                                 ProductoId = reader.GetInt32(0),
                                 NombreProducto = reader.GetString(1),
                                 Plataforma = reader.GetString(2),
@@ -103,6 +103,7 @@ namespace PIA1._0
             }
             return items;
         }
+
         public async Task<bool> CreateProductoConInventarioAsync(NuevoProductoInventario item)
         {
             const string query = @"
@@ -136,6 +137,55 @@ namespace PIA1._0
                     command.Parameters.AddWithValue("@StockMinimo", item.StockMinimo);
                     command.Parameters.AddWithValue("@StockMaximo", item.StockMaximo);
                     command.Parameters.AddWithValue("@PuntoReorden", item.PuntoReorden);
+
+                    var result = await command.ExecuteScalarAsync();
+                    return (int)result == 1;
+                }
+            }
+        }
+
+        // ✅ NUEVO MÉTODO AGREGADO: Actualizar producto
+        public async Task<bool> ActualizarProductoAsync(InventarioProducto producto)
+        {
+            const string query = @"
+                BEGIN TRANSACTION;
+                BEGIN TRY
+                    -- Actualizar tabla Productos
+                    UPDATE Productos 
+                    SET Nombre = @NombreProducto, 
+                        Plataforma = @Plataforma, 
+                        PrecioVenta = @PrecioVenta
+                    WHERE Id = @ProductoId;
+
+                    -- Actualizar tabla Inventario
+                    UPDATE Inventario 
+                    SET CantidadActual = @CantidadActual,
+                        StockMinimo = @StockMinimo,
+                        StockMaximo = @StockMaximo,
+                        PuntoReorden = @PuntoReorden
+                    WHERE ProductoId = @ProductoId;
+                    
+                    COMMIT TRANSACTION;
+                    SELECT 1;
+                END TRY
+                BEGIN CATCH
+                    ROLLBACK TRANSACTION;
+                    SELECT 0;
+                END CATCH";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
+                    command.Parameters.AddWithValue("@Plataforma", producto.Plataforma);
+                    command.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
+                    command.Parameters.AddWithValue("@CantidadActual", producto.CantidadActual);
+                    command.Parameters.AddWithValue("@StockMinimo", producto.StockMinimo);
+                    command.Parameters.AddWithValue("@StockMaximo", producto.StockMaximo);
+                    command.Parameters.AddWithValue("@PuntoReorden", producto.PuntoReorden);
+                    command.Parameters.AddWithValue("@ProductoId", producto.ProductoId);
 
                     var result = await command.ExecuteScalarAsync();
                     return (int)result == 1;

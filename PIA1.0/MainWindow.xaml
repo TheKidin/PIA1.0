@@ -273,7 +273,7 @@
                                                         VerticalAlignment="Center"
                                                         HorizontalAlignment="Center">
                                                 <Button Content="Editar" 
-                                                        Click="BtnEditarStock_Click"
+                                                        Click="BtnEditar_Click"
                                                         Tag="{Binding ProductoId}"
                                                         Background="Transparent"
                                                         BorderThickness="0"

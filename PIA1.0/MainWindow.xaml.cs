@@ -19,9 +19,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace PIA1._0
 {
     public class CurrencyConverter : IValueConverter
@@ -78,6 +75,7 @@ namespace PIA1._0
 
                 _inventarioCompleto = dbInventario.Select(item => new PIA1._0.Models.InventarioProducto
                 {
+                    InventarioId = item.InventarioId,
                     ProductoId = item.ProductoId,
                     NombreProducto = item.NombreProducto,
                     Plataforma = item.Plataforma,
@@ -144,6 +142,7 @@ namespace PIA1._0
 
                 var resultadosConvertidos = resultados.Select(item => new PIA1._0.Models.InventarioProducto
                 {
+                    InventarioId = item.InventarioId,
                     ProductoId = item.ProductoId,
                     NombreProducto = item.NombreProducto,
                     Plataforma = item.Plataforma,
@@ -251,7 +250,38 @@ namespace PIA1._0
             }
         }
 
-        private async void BtnEditarStock_Click(object sender, RoutedEventArgs e)
+        private async void BtnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is int productoId)
+            {
+                try
+                {
+                    var producto = _inventarioCompleto.FirstOrDefault(x => x.ProductoId == productoId);
+                    if (producto != null)
+                    {
+                        var editarWindow = new EditarProductoWindow(_databaseService, producto);
+                        editarWindow.Activate();
+
+                        var tcs = new TaskCompletionSource<bool>();
+                        editarWindow.Closed += (s, args) => tcs.SetResult(editarWindow.ProductoEditado);
+
+                        var productoEditado = await tcs.Task;
+
+                        if (productoEditado)
+                        {
+                            MostrarMensaje("✅ Producto editado correctamente");
+                            await CargarDatosAsync();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MostrarMensaje($"Error al editar producto: {ex.Message}");
+                }
+            }
+        }
+
+        private async void BtnEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is int productoId)
             {
@@ -290,16 +320,8 @@ namespace PIA1._0
                 }
                 catch (Exception ex)
                 {
-                    MostrarMensaje($"Error al editar stock: {ex.Message}");
+                    MostrarMensaje($"Error al eliminar producto: {ex.Message}");
                 }
-            }
-        }
-
-        private async void BtnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag != null)
-            {
-                MostrarMensaje($"Eliminar producto ID: {button.Tag}");
             }
         }
 
