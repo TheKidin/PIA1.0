@@ -10,7 +10,7 @@ namespace PIA1._0
 {
     public class DatabaseService
     {
-        private readonly string _connectionString = "Server=KAI\\SQLEXPRESS;Database=GameStoreDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "Server=localhost\\SQLEXPRESS;Database=GameStoreDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
         // Modelo que coincide con tu estructura de base de datos
         public async Task<List<InventarioProducto>> GetInventarioAsync()
@@ -266,14 +266,23 @@ namespace PIA1._0
         {
             var stats = new Dictionary<string, object>();
             const string query = @"
+                WITH GroupedInventario AS (
+                    SELECT 
+                        p.Id,
+                        p.PrecioVenta,
+                        SUM(i.CantidadActual) as TotalCantidad,
+                        MIN(i.StockMinimo) as MinStock
+                    FROM Productos p
+                    INNER JOIN Inventario i ON p.Id = i.ProductoId
+                    GROUP BY p.Id, p.PrecioVenta
+                )
                 SELECT 
                     COUNT(*) as TotalProductos,
-                    SUM(i.CantidadActual) as TotalStock,
-                    SUM(i.CantidadActual * p.PrecioVenta) as ValorTotalInventario,
-                    AVG(p.PrecioVenta) as PrecioPromedio,
-                    COUNT(CASE WHEN i.CantidadActual <= i.StockMinimo THEN 1 END) as ProductosBajoStock
-                FROM Inventario i
-                INNER JOIN Productos p ON i.ProductoId = p.Id";
+                    SUM(TotalCantidad) as TotalStock,
+                    SUM(TotalCantidad * PrecioVenta) as ValorTotalInventario,
+                    AVG(PrecioVenta) as PrecioPromedio,
+                    SUM(CASE WHEN TotalCantidad <= MinStock THEN 1 ELSE 0 END) as ProductosBajoStock
+                FROM GroupedInventario;";
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -283,11 +292,11 @@ namespace PIA1._0
                 {
                     if (await reader.ReadAsync())
                     {
-                        stats.Add("TotalProductos", reader.GetInt32(0));
-                        stats.Add("TotalStock", reader.GetInt32(1));
-                        stats.Add("ValorTotalInventario", reader.GetDecimal(2));
-                        stats.Add("PrecioPromedio", reader.GetDecimal(3));
-                        stats.Add("ProductosBajoStock", reader.GetInt32(4));
+                        stats.Add("TotalProductos", reader.IsDBNull(0) ? 0 : reader.GetInt32(0));
+                        stats.Add("TotalStock", reader.IsDBNull(1) ? 0 : reader.GetInt32(1));
+                        stats.Add("ValorTotalInventario", reader.IsDBNull(2) ? 0m : reader.GetDecimal(2));
+                        stats.Add("PrecioPromedio", reader.IsDBNull(3) ? 0m : reader.GetDecimal(3));
+                        stats.Add("ProductosBajoStock", reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
                     }
                 }
             }
