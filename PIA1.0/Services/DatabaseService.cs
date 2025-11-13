@@ -104,6 +104,32 @@ namespace PIA1._0
             return items;
         }
 
+        // --- MÉTODO NUEVO AGREGADO ---
+        public async Task<List<string>> GetPlataformasAsync()
+        {
+            var plataformas = new List<string>();
+            const string query = @"
+                SELECT DISTINCT Plataforma 
+                FROM Productos 
+                WHERE Plataforma IS NOT NULL AND Plataforma != ''
+                ORDER BY Plataforma";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(query, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        plataformas.Add(reader.GetString(0));
+                    }
+                }
+            }
+            return plataformas;
+        }
+        // -------------------------------
+
         public async Task<bool> CreateProductoConInventarioAsync(NuevoProductoInventario item)
         {
             const string query = @"

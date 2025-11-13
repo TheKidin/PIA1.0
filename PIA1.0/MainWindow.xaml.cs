@@ -422,5 +422,27 @@ namespace PIA1._0
                 teachingTip.IsOpen = false;
             }
         }
+
+        // ***** MÉTODO NUEVO AGREGADO *****
+        private void borderBajoStock_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // Buscamos el ComboBoxItem que tiene el Tag "bajo_stock"
+            // (definido en tu XAML)
+            foreach (var item in cmbFiltroExtra.Items)
+            {
+                if (item is ComboBoxItem cbItem && cbItem.Tag?.ToString() == "bajo_stock")
+                {
+                    // Al seleccionar este item, se disparará automáticamente
+                    // el evento CmbFiltroExtra_SelectionChanged,
+                    // que a su vez llamará a RealizarBusquedaAvanzada().
+                    cmbFiltroExtra.SelectedItem = item;
+
+                    // Opcional: Mover el foco a la lista para que el usuario vea el cambio
+                    lvInventario.Focus(FocusState.Programmatic);
+                    break;
+                }
+            }
+        }
+        // ***** FIN DEL MÉTODO NUEVO *****
     }
 }

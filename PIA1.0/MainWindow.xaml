@@ -16,20 +16,17 @@
 
     <Grid Background="LightGray">
         <Grid.Resources>
-            <!-- Converter para formatear moneda -->
             <local:CurrencyConverter x:Key="CurrencyConverter"/>
         </Grid.Resources>
 
-        <!-- Layout Principal -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header Moderno -->
         <Border Grid.Row="0" Background="#667eea" 
-                Padding="20,15" BorderThickness="0,0,0,2" BorderBrush="#5a67d8">
+                 Padding="20,15" BorderThickness="0,0,0,2" BorderBrush="#5a67d8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -37,14 +34,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Logo y Título -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Background="White" CornerRadius="10" Padding="8" Margin="0,0,15,0">
                         <SymbolIcon Symbol="Shop" Foreground="#667eea" Width="28" Height="28"/>
                     </Border>
                     <StackPanel>
                         <TextBlock Text="GameStore" 
-                                  Foreground="White" 
+                                   Foreground="White" 
                                   FontSize="24" 
                                   FontWeight="Bold"/>
                         <TextBlock Text="Sistema de Gestión de Inventario" 
@@ -53,7 +49,6 @@
                     </StackPanel>
                 </StackPanel>
 
-                <!-- Filtros de Búsqueda Centrados -->
                 <Grid Grid.Column="1" HorizontalAlignment="Center" Width="700" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -61,7 +56,6 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Filtro por Plataforma -->
                     <ComboBox x:Name="cmbPlataforma" Grid.Column="0" 
                               Background="Gray" BorderBrush="#E2E8F0"
                               CornerRadius="8" FontSize="12" 
@@ -70,11 +64,10 @@
                         <ComboBoxItem Content="🎮 Cargando plataformas..." IsEnabled="False"/>
                     </ComboBox>
 
-                    <!-- Filtros Extra -->
                     <ComboBox x:Name="cmbFiltroExtra" Grid.Column="1" 
                               Background="Gray" BorderBrush="#E2E8F0"
                               CornerRadius="8" FontSize="12" 
-                              SelectionChanged="CmbFiltroExtra_SelectionChanged"
+                               SelectionChanged="CmbFiltroExtra_SelectionChanged"
                               Margin="10,0,10,0">
                         <ComboBoxItem Content="📊 Todos los productos" Tag="Todos" IsSelected="True"/>
                         <ComboBoxItem Content="⚠️ Bajo Stock" Tag="bajo_stock"/>
@@ -84,83 +77,77 @@
                         <ComboBoxItem Content="💸 Precio Bajo ($100-)" Tag="precio_bajo"/>
                     </ComboBox>
 
-                    <!-- Botones -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
                         <Button x:Name="btnBuscar" 
                                 Content="🔍 Buscar" 
                                 Click="BtnBuscar_Click"
-                                Background="#48BB78"
+                                 Background="#48BB78"
                                 Foreground="White"
                                 BorderThickness="0"
-                                CornerRadius="20"
+                                 CornerRadius="20"
                                 Padding="15,10"
                                 FontSize="12"
-                                FontWeight="SemiBold"
+                                 FontWeight="SemiBold"
                                 ToolTipService.ToolTip="Aplicar filtros"/>
 
                         <Button x:Name="btnLimpiar" 
-                                Content="🔄 Limpiar" 
+                                 Content="🔄 Limpiar" 
                                 Click="BtnLimpiar_Click"
                                 Background="#A0AEC0"
-                                Foreground="White"
+                                 Foreground="White"
                                 BorderThickness="0"
                                 CornerRadius="20"
                                 Padding="15,10"
-                                FontSize="12"
+                                 FontSize="12"
                                 FontWeight="SemiBold"
                                 ToolTipService.ToolTip="Limpiar filtros"/>
                     </StackPanel>
                 </Grid>
 
-                <!-- Panel de Usuario y Acciones -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                    <!-- Información de Usuario -->
                     <Border Background="#4A5568" CornerRadius="15" Padding="10,6">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <SymbolIcon Symbol="Contact" Foreground="White"/>
                             <TextBlock x:Name="txtUsuarioActual" 
                                       Text="Administrador" 
                                       Foreground="White"
-                                      FontWeight="SemiBold"
+                                       FontWeight="SemiBold"
                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
-                    <!-- Botones de Acción -->
                     <Button x:Name="btnNuevoProducto" 
                             Content="Nuevo Producto" 
-                            Click="BtnNuevoProducto_Click"
+                             Click="BtnNuevoProducto_Click"
                             Background="#ED8936"
                             Foreground="White"
                             BorderThickness="0"
-                            CornerRadius="20"
+                             CornerRadius="20"
                             Padding="15,8"
                             FontWeight="SemiBold"/>
 
                     <Button x:Name="btnCerrarSesion" 
-                            Content="Salir" 
+                             Content="Salir" 
                             Click="BtnCerrarSesion_Click"
                             Background="#E53E3E"
-                            Foreground="White"
+                             Foreground="White"
                             BorderThickness="0"
                             CornerRadius="20"
                             Padding="15,8"
-                            FontWeight="SemiBold"/>
+                             FontWeight="SemiBold"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Contenido Principal -->
         <Grid Grid.Row="1" Padding="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Panel de Inventario -->
             <Border Grid.Column="0" 
                     Background="Gray" 
-                    CornerRadius="12" 
+                     CornerRadius="12" 
                     Padding="0"
                     BorderThickness="1" 
                     BorderBrush="#E2E8F0"
@@ -172,40 +159,38 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Header de la Tabla -->
                     <Border Grid.Row="0" 
                             Background="#F7FAFC" 
                             CornerRadius="12,12,0,0"
-                            Padding="20,15"
+                             Padding="20,15"
                             BorderThickness="0,0,0,1"
                             BorderBrush="#E2E8F0">
                         <Grid>
                             <TextBlock Text="Inventario de Productos" 
                                       FontSize="18" 
-                                      FontWeight="Bold"
+                                       FontWeight="Bold"
                                       Foreground="#2D3748"/>
                             <TextBlock Text="Gestión completa de stock y productos"
-                                      FontSize="12"
+                                         FontSize="12"
                                       Foreground="#718096"
-                                      Margin="0,25,0,0"/>
+                                       Margin="0,25,0,0"/>
                         </Grid>
                     </Border>
 
-                    <!-- Lista de Productos -->
                     <ScrollViewer Grid.Row="1" Padding="0">
                         <ListView x:Name="lvInventario"
                                  SelectionMode="Single"
                                  BorderThickness="0"
-                                 Background="Transparent">
+                                  Background="Transparent">
 
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:InventarioProducto">
                                     <Border Background="White" 
                                             Margin="10,5" 
-                                            CornerRadius="8"
+                                             CornerRadius="8"
                                             BorderThickness="1" 
                                             BorderBrush="#E2E8F0"
-                                            Padding="15">
+                                             Padding="15">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -217,77 +202,70 @@
                                                 <ColumnDefinition Width="120"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Información del Producto -->
                                             <StackPanel Grid.Column="0" Orientation="Vertical">
                                                 <TextBlock Text="{Binding NombreProducto}" 
-                                                          FontWeight="SemiBold"
+                                                           FontWeight="SemiBold"
                                                           Foreground="#2D3748"/>
                                                 <TextBlock Text="{Binding Plataforma}" 
                                                           FontSize="12"
-                                                          Foreground="#718096"
+                                                           Foreground="#718096"
                                                           Margin="0,2,0,0"/>
                                             </StackPanel>
 
-                                            <!-- Precio -->
                                             <Border Grid.Column="1" Background="#F0FFF4" CornerRadius="4" 
                                                     Margin="5" Padding="8" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding PrecioVenta, Converter={StaticResource CurrencyConverter}}" 
                                                           Foreground="#38A169"
-                                                          FontWeight="Bold"
-                                                          HorizontalAlignment="Center"/>
+                                                                       FontWeight="Bold"
+                                                           HorizontalAlignment="Center"/>
                                             </Border>
 
-                                            <!-- Stock -->
                                             <TextBlock Grid.Column="2" 
-                                                      Text="{Binding CantidadActual}" 
+                                                       Text="{Binding CantidadActual}" 
                                                       VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"
+                                                       HorizontalAlignment="Center"
                                                       FontWeight="Bold"/>
 
-                                            <!-- Stock Mínimo -->
                                             <TextBlock Grid.Column="3" 
-                                                      Text="{Binding StockMinimo}" 
+                                                       Text="{Binding StockMinimo}" 
                                                       VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"
+                                                       HorizontalAlignment="Center"
                                                       FontWeight="SemiBold"/>
 
-                                            <!-- Stock Máximo -->
                                             <TextBlock Grid.Column="4" 
-                                                      Text="{Binding StockMaximo}" 
+                                                       Text="{Binding StockMaximo}" 
                                                       VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"
+                                                       HorizontalAlignment="Center"
                                                       FontWeight="SemiBold"/>
 
-                                            <!-- Punto de Reorden -->
                                             <TextBlock Grid.Column="5" 
-                                                      Text="{Binding PuntoReorden}" 
+                                                       Text="{Binding PuntoReorden}" 
                                                       VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"
-                                                      FontWeight="SemiBold"
+                                                       HorizontalAlignment="Center"
+                                                       FontWeight="SemiBold"
                                                       Foreground="#D69E2E"/>
 
-                                            <!-- Acciones -->
                                             <StackPanel Grid.Column="6" 
                                                         Orientation="Horizontal" 
                                                         Spacing="8"
-                                                        VerticalAlignment="Center"
+                                                         VerticalAlignment="Center"
                                                         HorizontalAlignment="Center">
                                                 <Button Content="Editar" 
                                                         Click="BtnEditar_Click"
-                                                        Tag="{Binding ProductoId}"
+                                                         Tag="{Binding ProductoId}"
                                                         Background="Transparent"
-                                                        BorderThickness="0"
-                                                        Padding="8"
+                                                          BorderThickness="0"
+                                                         Padding="8"
                                                         FontSize="12"
-                                                        Foreground="#3182CE"/>
+                                                         Foreground="#3182CE"/>
 
                                                 <Button Content="Eliminar" 
                                                         Click="BtnEliminar_Click"
                                                         Tag="{Binding ProductoId}"
-                                                        Background="Transparent"
+                                                         Background="Transparent"
                                                         BorderThickness="0"
-                                                        Padding="8"
-                                                        FontSize="12"
+                                                          Padding="8"
+                                                         FontSize="12"
                                                         Foreground="#E53E3E"/>
                                             </StackPanel>
                                         </Grid>
@@ -299,11 +277,9 @@
                 </Grid>
             </Border>
 
-            <!-- Panel de Estadísticas Lateral -->
             <StackPanel Grid.Column="1" Spacing="15">
-                <!-- Tarjeta de Resumen -->
                 <Border Background="White" 
-                        CornerRadius="12" 
+                         CornerRadius="12" 
                         Padding="20"
                         BorderThickness="1" 
                         BorderBrush="#E2E8F0">
@@ -311,7 +287,7 @@
                         <TextBlock Text="Resumen General" 
                                   FontSize="16" 
                                   FontWeight="Bold"
-                                  Foreground="#2D3748"
+                                   Foreground="#2D3748"
                                   Margin="0,0,0,15"/>
 
                         <Grid>
@@ -325,45 +301,42 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Total Productos -->
                             <Border Grid.Row="0" Grid.Column="0" 
                                     Background="#EBF8FF" 
                                     CornerRadius="8" 
-                                    Padding="12" 
+                                     Padding="12" 
                                     Margin="0,0,5,8">
                                 <StackPanel>
                                     <TextBlock Text="Productos" 
                                               FontSize="11"
-                                              Foreground="#718096"
+                                               Foreground="#718096"
                                               HorizontalAlignment="Center"/>
                                     <TextBlock x:Name="txtTotalProductos" Text="0" 
                                               FontSize="20" 
-                                              FontWeight="Bold"
+                                               FontWeight="Bold"
                                               Foreground="#3182CE"
-                                              HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Stock Total -->
                             <Border Grid.Row="0" Grid.Column="1" 
                                     Background="#F0FFF4" 
                                     CornerRadius="8" 
-                                    Padding="12" 
+                                     Padding="12" 
                                     Margin="5,0,0,8">
                                 <StackPanel>
                                     <TextBlock Text="En Stock" 
                                               FontSize="11"
-                                              Foreground="#718096"
+                                               Foreground="#718096"
                                               HorizontalAlignment="Center"/>
                                     <TextBlock x:Name="txtTotalStock" Text="0" 
                                               FontSize="20" 
-                                              FontWeight="Bold"
+                                               FontWeight="Bold"
                                               Foreground="#38A169"
-                                              HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Valor Inventario -->
                             <Border Grid.Row="1" Grid.Column="0" 
                                     Background="#FFFAF0" 
                                     CornerRadius="8" 
@@ -372,51 +345,51 @@
                                 <StackPanel>
                                     <TextBlock Text="Valor Total" 
                                               FontSize="11"
-                                              Foreground="#718096"
+                                               Foreground="#718096"
                                               HorizontalAlignment="Center"/>
                                     <TextBlock x:Name="txtValorInventario" Text="$0.00" 
                                               FontSize="16" 
-                                              FontWeight="Bold"
+                                               FontWeight="Bold"
                                               Foreground="#DD6B20"
-                                              HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Bajo Stock -->
-                            <Border Grid.Row="1" Grid.Column="1" 
+                            <Border x:Name="borderBajoStock" 
+                                    Grid.Row="1" Grid.Column="1" 
                                     Background="#FFF5F5" 
                                     CornerRadius="8" 
                                     Padding="12" 
-                                    Margin="5,8,0,8">
+                                    Margin="5,8,0,8"
+                                    PointerPressed="borderBajoStock_PointerPressed"
+                                    ToolTipService.ToolTip="Click para filtrar productos con bajo stock">
                                 <StackPanel>
                                     <TextBlock Text="Bajo Stock" 
                                               FontSize="11"
-                                              Foreground="#718096"
+                                               Foreground="#718096"
                                               HorizontalAlignment="Center"/>
                                     <TextBlock x:Name="txtBajoStock" Text="0" 
                                               FontSize="20" 
-                                              FontWeight="Bold"
+                                               FontWeight="Bold"
                                               Foreground="#E53E3E"
-                                              HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
-
-                            <!-- Precio Promedio -->
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                     Background="#FAF5FF" 
-                                    CornerRadius="8" 
+                                     CornerRadius="8" 
                                     Padding="12" 
                                     Margin="0,8,0,0">
                                 <StackPanel>
                                     <TextBlock Text="Precio Promedio" 
                                               FontSize="11"
-                                              Foreground="#718096"
+                                               Foreground="#718096"
                                               HorizontalAlignment="Center"/>
                                     <TextBlock x:Name="txtPrecioPromedio" Text="$0.00" 
                                               FontSize="16" 
-                                              FontWeight="Bold"
+                                               FontWeight="Bold"
                                               Foreground="#805AD5"
-                                              HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -424,26 +397,25 @@
                         <Button x:Name="btnActualizarStats" 
                                 Content="Actualizar Estadísticas" 
                                 Click="BtnActualizarStats_Click"
-                                Background="#4C51BF"
+                                 Background="#4C51BF"
                                 Foreground="White"
                                 BorderThickness="0"
-                                CornerRadius="8"
+                                 CornerRadius="8"
                                 Padding="12"
                                 FontWeight="SemiBold"
-                                Margin="0,15,0,0"/>
+                                 Margin="0,15,0,0"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
         </Grid>
 
-        <!-- Footer -->
         <Border Grid.Row="2" 
-                Background="#2D3748"
+                 Background="#2D3748"
                 Padding="15">
             <Grid>
                 <TextBlock Text="GameStore Inventory System v2.0 • Conectado a Base de Datos SQL Server" 
                           Foreground="#A0AEC0"
-                          HorizontalAlignment="Center"
+                           HorizontalAlignment="Center"
                           FontSize="12"/>
             </Grid>
         </Border>

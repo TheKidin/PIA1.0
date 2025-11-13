@@ -14,14 +14,12 @@
     </Window.SystemBackdrop>
 
     <Grid Background="#1A202C">
-        <!-- Layout Principal -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header Moderno -->
         <Border Grid.Row="0" 
                 Background="#2D3748" 
                 Padding="25,20"
@@ -33,7 +31,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Ícono -->
                 <Border Grid.Column="0" 
                         Background="#4A5568" 
                         CornerRadius="10" 
@@ -41,33 +38,30 @@
                         Margin="0,0,15,0"
                         VerticalAlignment="Center">
                     <SymbolIcon Symbol="Add" 
-                               Foreground="White" 
+                                Foreground="White" 
                                Width="24" 
                                Height="24"/>
                 </Border>
 
-                <!-- Título y Descripción -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="Agregar Nuevo Producto" 
                               Foreground="White" 
-                              FontSize="20" 
+                               FontSize="20" 
                               FontWeight="Bold"/>
                     <TextBlock Text="Complete la información del producto" 
-                              Foreground="#CBD5E0" 
+                               Foreground="#CBD5E0" 
                               FontSize="12"
                               Margin="0,5,0,0"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Formulario -->
         <ScrollViewer Grid.Row="1" Padding="25" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="20">
 
-                <!-- Información Básica -->
                 <Border Background="#2D3748" 
                         CornerRadius="12" 
-                        Padding="20"
+                         Padding="20"
                         BorderThickness="1" 
                         BorderBrush="#4A5568">
                     <StackPanel>
@@ -83,36 +77,35 @@
                                      PlaceholderText="Ej: The Legend of Zelda: Tears of the Kingdom"
                                      Height="60"
                                      FontSize="14"
-                                     Background="#4A5568"
+                                      Background="#4A5568"
                                      Foreground="White"
                                      BorderBrush="#718096"
                                      PlaceholderForeground="#A0AEC0"/>
 
-                            <TextBox x:Name="txtPlataforma" 
-                                     Header="🖥️ Plataforma" 
-                                     PlaceholderText="Ej: Nintendo Switch, PlayStation 5, Xbox Series X"
-                                     Height="60"
-                                     FontSize="14"
-                                     Background="#4A5568"
-                                     Foreground="White"
-                                     BorderBrush="#718096"
-                                     PlaceholderForeground="#A0AEC0"/>
+                            <ComboBox x:Name="cmbPlataforma" 
+                                      Header="🖥️ Plataforma" 
+                                      PlaceholderText="Selecciona o escribe una plataforma"
+                                      IsEditable="False"
+                                      Height="60"
+                                      FontSize="14"
+                                      Background="#4A5568"
+                                      Foreground="White"
+                                      BorderBrush="#718096"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- Precio -->
                 <Border Background="#2D3748" 
                         CornerRadius="12" 
                         Padding="20"
-                        BorderThickness="1" 
+                         BorderThickness="1" 
                         BorderBrush="#4A5568">
                     <StackPanel>
                         <TextBlock Text="💰 Precio" 
-                                  FontSize="16" 
+                                   FontSize="16" 
                                   FontWeight="Bold"
                                   Foreground="White"
-                                  Margin="0,0,0,15"/>
+                                   Margin="0,0,0,15"/>
 
                         <NumberBox x:Name="numPrecio" 
                                    Header="Precio de Venta ($)" 
@@ -124,27 +117,26 @@
                                    FontSize="14"
                                    Background="#4A5568"
                                    Foreground="White"
-                                   BorderBrush="#718096"/>
+                                BorderBrush="#718096"/>
 
                         <TextBlock Text="Ingrese el precio de venta en dólares" 
                                   FontSize="11"
-                                  Foreground="#CBD5E0"
+                                   Foreground="#CBD5E0"
                                   Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Gestión de Stock -->
                 <Border Background="#2D3748" 
                         CornerRadius="12" 
                         Padding="20"
                         BorderThickness="1" 
-                        BorderBrush="#4A5568">
+                         BorderBrush="#4A5568">
                     <StackPanel>
                         <TextBlock Text="📦 Gestión de Stock" 
-                                  FontSize="16" 
+                                   FontSize="16" 
                                   FontWeight="Bold"
                                   Foreground="White"
-                                  Margin="0,0,0,15"/>
+                                   Margin="0,0,0,15"/>
 
                         <Grid ColumnSpacing="15">
                             <Grid.ColumnDefinitions>
@@ -156,10 +148,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <!-- Stock Actual -->
                             <StackPanel Grid.Row="0" Grid.Column="0" Spacing="5">
                                 <TextBlock Text="Stock Actual" 
-                                          FontWeight="SemiBold"
+                                           FontWeight="SemiBold"
                                           Foreground="White"/>
                                 <NumberBox x:Name="numStockActual" 
                                            Minimum="0" 
@@ -171,7 +162,6 @@
                                            BorderBrush="#718096"/>
                             </StackPanel>
 
-                            <!-- Stock Mínimo -->
                             <StackPanel Grid.Row="0" Grid.Column="1" Spacing="5">
                                 <TextBlock Text="Stock Mínimo" 
                                           FontWeight="SemiBold"
@@ -183,13 +173,12 @@
                                            FontSize="14"
                                            Background="#4A5568"
                                            Foreground="White"
-                                           BorderBrush="#718096"/>
+                                            BorderBrush="#718096"/>
                             </StackPanel>
 
-                            <!-- Stock Máximo -->
                             <StackPanel Grid.Row="1" Grid.Column="0" Spacing="5" Margin="0,15,0,0">
                                 <TextBlock Text="Stock Máximo" 
-                                          FontWeight="SemiBold"
+                                           FontWeight="SemiBold"
                                           Foreground="White"/>
                                 <NumberBox x:Name="numStockMaximo" 
                                            Minimum="0" 
@@ -201,7 +190,6 @@
                                            BorderBrush="#718096"/>
                             </StackPanel>
 
-                            <!-- Punto de Reorden -->
                             <StackPanel Grid.Row="1" Grid.Column="1" Spacing="5" Margin="0,15,0,0">
                                 <TextBlock Text="Punto de Reorden" 
                                           FontWeight="SemiBold"
@@ -211,25 +199,24 @@
                                            Value="10"
                                            PlaceholderText="10"
                                            FontSize="14"
-                                           Background="#4A5568"
+                                            Background="#4A5568"
                                            Foreground="White"
-                                           BorderBrush="#718096"/>
+                                            BorderBrush="#718096"/>
                             </StackPanel>
                         </Grid>
 
                         <TextBlock Text="El sistema alertará cuando el stock esté por debajo del punto de reorden" 
                                   FontSize="11"
                                   Foreground="#CBD5E0"
-                                  Margin="0,10,0,0"
+                                   Margin="0,10,0,0"
                                   TextWrapping="Wrap"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Mensaje de Error -->
                 <Border x:Name="borderMensajeError"
                         Background="#742A2A" 
                         CornerRadius="8" 
-                        Padding="15"
+                         Padding="15"
                         BorderThickness="1" 
                         BorderBrush="#C53030"
                         Visibility="Collapsed">
@@ -237,10 +224,10 @@
                         <SymbolIcon Symbol="Cancel" 
                                    Foreground="#FEB2B2"
                                    Width="16" 
-                                   Height="16"/>
+                                    Height="16"/>
                         <TextBlock x:Name="txtMensajeError" 
                                   Foreground="#FEB2B2" 
-                                  TextWrapping="Wrap"
+                                   TextWrapping="Wrap"
                                   FontWeight="SemiBold"
                                   VerticalAlignment="Center"/>
                     </StackPanel>
@@ -248,10 +235,9 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Footer con Botones -->
         <Border Grid.Row="2" 
                 Background="#2D3748" 
-                Padding="20"
+                 Padding="20"
                 BorderThickness="1,0,0,0" 
                 BorderBrush="#4A5568">
             <Grid ColumnSpacing="15">
@@ -260,28 +246,26 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Botón Cancelar -->
                 <Button x:Name="btnCancelar" 
                         Content="Cancelar" 
-                        Click="BtnCancelar_Click"
+                         Click="BtnCancelar_Click"
                         Grid.Column="0"
                         Background="Transparent"
                         BorderBrush="#718096"
-                        BorderThickness="1"
+                         BorderThickness="1"
                         Foreground="#CBD5E0"
                         CornerRadius="8"
                         Height="45"
-                        FontWeight="SemiBold"/>
+                         FontWeight="SemiBold"/>
 
-                <!-- Botón Guardar -->
                 <Button x:Name="btnGuardar" 
                         Content="💾 Guardar Producto" 
                         Click="BtnGuardar_Click"
-                        Grid.Column="1"
+                         Grid.Column="1"
                         Background="#48BB78"
                         Foreground="White"
                         BorderThickness="0"
-                        CornerRadius="8"
+                         CornerRadius="8"
                         Height="45"
                         FontWeight="SemiBold"
                         FontSize="14"/>

@@ -35,6 +35,23 @@ namespace PIA1._0
 
             // Poner foco en el primer campo
             txtNombre.Focus(FocusState.Programmatic);
+
+            // Cargamos las plataformas existentes
+            _ = CargarPlataformasAsync();
+        }
+
+        private async Task CargarPlataformasAsync()
+        {
+            try
+            {
+                var plataformas = await _databaseService.GetPlataformasAsync();
+                cmbPlataforma.ItemsSource = plataformas;
+            }
+            catch (Exception ex)
+            {
+                // Opcional: Mostrar error si no se pueden cargar las plataformas
+                System.Diagnostics.Debug.WriteLine($"Error al cargar plataformas: {ex.Message}");
+            }
         }
 
         private async void BtnGuardar_Click(object sender, RoutedEventArgs e)
@@ -49,12 +66,47 @@ namespace PIA1._0
 
         private async Task GuardarProductoAsync()
         {
+            // --- INICIO DE LA VALIDACIÓN MEJORADA ---
+
+            // 1. Ocultamos el mensaje de error anterior
+            borderMensajeError.Visibility = Visibility.Collapsed;
+
+            // 2. Creamos una lista para guardar todos los errores
+            var errores = new List<string>();
+
+            // 3. Validamos cada campo y agregamos a la lista si hay error
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MostrarError("El nombre del producto es requerido");
+                errores.Add("El nombre del producto es requerido.");
+            }
+
+            if (string.IsNullOrWhiteSpace(cmbPlataforma.Text))
+            {
+                errores.Add("La plataforma es requerida.");
+            }
+
+            if (numPrecio.Value <= 0)
+            {
+                errores.Add("El precio de venta debe ser mayor a 0.");
+            }
+
+            if (numStockMaximo.Value <= numStockMinimo.Value)
+            {
+                errores.Add("El stock máximo debe ser mayor que el stock mínimo.");
+            }
+
+            // 4. Si la lista tiene CUALQUIER error, los mostramos todos y detenemos
+            if (errores.Count > 0)
+            {
+                // Unimos todos los errores en un solo mensaje, separados por saltos de línea
+                MostrarError(string.Join(Environment.NewLine, errores));
                 return;
             }
 
+            // --- FIN DE LA VALIDACIÓN MEJORADA ---
+
+
+            // Si llegamos aquí, no hay errores y podemos continuar.
             btnGuardar.Content = "Guardando...";
             btnGuardar.IsEnabled = false;
 
@@ -63,7 +115,7 @@ namespace PIA1._0
                 var nuevoProducto = new NuevoProductoInventario
                 {
                     Nombre = txtNombre.Text.Trim(),
-                    Plataforma = string.IsNullOrWhiteSpace(txtPlataforma.Text) ? "N/A" : txtPlataforma.Text.Trim(),
+                    Plataforma = cmbPlataforma.Text.Trim(),
                     PrecioVenta = (decimal)numPrecio.Value,
                     CantidadActual = (int)numStockActual.Value,
                     StockMinimo = (int)numStockMinimo.Value,
@@ -97,7 +149,7 @@ namespace PIA1._0
         private void MostrarError(string mensaje)
         {
             txtMensajeError.Text = mensaje;
-            txtMensajeError.Visibility = Visibility.Visible;
+            borderMensajeError.Visibility = Visibility.Visible;
         }
     }
 }

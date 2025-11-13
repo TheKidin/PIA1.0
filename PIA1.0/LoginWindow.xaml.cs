@@ -92,11 +92,13 @@ namespace PIA1._0
         private void MostrarError(string mensaje)
         {
             txtMensajeError.Text = mensaje;
-            txtMensajeError.Visibility = Visibility.Visible;
+            // --- CORRECCIÓN AQUÍ ---
+            borderMensajeError.Visibility = Visibility.Visible;
         }
         private void OcultarError()
         {
-            txtMensajeError.Visibility = Visibility.Collapsed;
+            // --- CORRECCIÓN AQUÍ ---
+            borderMensajeError.Visibility = Visibility.Collapsed;
         }
     }
 }
